@@ -1,5 +1,6 @@
 use ansi_term::Colour;
 use std::io::Write;
+use rand::prelude::*;
 
 #[derive(Debug,PartialEq)]
 enum Color {
@@ -18,13 +19,9 @@ fn main() {
 
     let mut play = true;
     let mut times = 0;
+
     
-    let mut guess: Vec<Color> = Vec::new();
-    guess.push(Color::White);
-    guess.push(Color::Blue);
-    guess.push(Color::Red);
-    guess.push(Color::Yellow);
-    guess.push(Color::White);
+    let guess: Vec<Color> = get_random_colors();
 
     while  play == true {
 
@@ -71,6 +68,27 @@ fn add_user_colors(user_input: String) -> Vec<Color> {
         }
     }
     return color_user;
+}
+
+fn get_random_colors() -> Vec<Color> {
+    let mut rng = rand::thread_rng();
+    let mut colors: Vec<Color> = Vec::new();
+    for i in 0..5 {
+        let random_number = rng.gen_range(0..7);
+        match random_number {
+            0 => colors.push(Color::Black),
+            1 => colors.push(Color::Blue),
+            2 => colors.push(Color::Red),
+            3 => colors.push(Color::Yellow),
+            4 => colors.push(Color::Cyan),
+            5 => colors.push(Color::Green),
+            6 => colors.push(Color::Purple),
+            7 => colors.push(Color::White),
+            _ => {}
+        }
+    }
+
+    return colors;
 }
 
 fn number_of_well_placed_pawns(secret: &[Color], guess: &[Color]) -> i32 {
